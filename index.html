@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="main.css">
+  <title>Shopping cart</title>
+</head>
+<body>
+  <div id="app">
+    <div class="product-card">
+      <div class="product-card__image">
+        <img :src="image" />
+      </div>
+      <div class="product-card__info product-info">
+        <h1>{{ product }}</h1>
+        <p v-if="inStock">In Stock</p>
+        <p v-else class="outOfStock">Out of Stock</p>
+        <ul class="product-info__list">Material:
+          <li class="product-info__item" v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div class="product-info__color"
+          v-for="variant in variants"
+          :key="variant.variantId"
+          :style="{ backgroundColor: variant.variantColor}"
+          @mouseover="updateProduct(variant.variantImage)">
+        </div>
+        <div class="product-card__cta">
+          <button @click="addToCart"
+            :disabled="!inStock"
+            :class="{ disabledButton: !inStock}">
+          Add to cart
+          </button>
+          <div class="cart">
+            <p>Cart ({{ cart }})</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
