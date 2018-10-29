@@ -8,8 +8,14 @@ Vue.component('Product', {
   template:`
   <div className="product-wrapper">
     <div class="product-card">
-      <div class="product-card__image">
-        <img :src="image" />
+      <div class="product-card__image-box">
+        <img class="product-card__image"
+        :src="image"
+        />
+        <div class="product-card__nav">
+          <button class="product-card__prev" @click="switchToPrev"><</button>
+          <button class="product-card__next" @click="switchToNext">></button>
+        </div>
       </div>
       <div class="product-card__info product-info">
         <h1>{{ product }}</h1>
@@ -37,7 +43,10 @@ Vue.component('Product', {
           </button>
         </div>
       </div>
+
     </div>
+
+
     <div class="product-review">
       <button class="btn" @click="productReview = !productReview">Write a review >></button>
       <Product-review class="product-review__form" v-if="productReview" @review-submitted="addReview"></Product-review>
@@ -95,6 +104,18 @@ Vue.component('Product', {
     addReview(productReview) {
       this.reviews.push(productReview);
       this.productReview = false;
+    },
+    switchToNext() {
+      this.selectedVariant++;
+      if (this.selectedVariant >= this.variants.length) {
+        this.selectedVariant = 0
+      }
+    },
+    switchToPrev() {
+      this.selectedVariant--;
+      if (this.selectedVariant < 0) {
+        this.selectedVariant = this.variants.length - 1
+      }
     }
   },
   computed: {
